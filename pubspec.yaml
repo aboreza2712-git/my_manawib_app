@@ -1,0 +1,41 @@
+name: manawib
+description: تطبيق منظم للدوام مع دعم التقويم الميلادي والهجري
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # دعم اللغة العربية والتقويم
+  flutter_localizations:
+    sdk: flutter
+    
+  intl: ^0.20.0
+  table_calendar: ^3.1.2
+  hijri: ^3.0.0
+  shared_preferences: ^2.2.3
+  provider: ^6.1.2  # تأكد من إضافة هذا السطر بدقة
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0 # تم تحديث النسخة للأحدث
+  flutter_launcher_icons: "^0.13.1" # تأكد من استخدام أحدث إصدار
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "asset/icon.png" # مسار الصورة التي وضعتها
+  adaptive_icon_background: "#ffffff" # لون الخلفية لأندرويد (اختياري)
+  adaptive_icon_foreground: "asset/icon.png" # للأيقونات التكيفية في أندرويد
+
+flutter:
+  uses-material-design: true
+
+  # إذا كان لديك صور، تأكد من وجود المجلد فعلياً في مشروعك
+  # asset:
+  #   - asset/images/
