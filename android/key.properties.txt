@@ -1,0 +1,4 @@
+storePassword=Rezareza22
+keyPassword=Rezareza22
+keyAlias=upload
+storeFile=C:/Users/yousif/manawib/android/app/upload-keystore.jks

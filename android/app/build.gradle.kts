@@ -1,12 +1,23 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// 1. قراءة آمنة لملف key.properties
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.inputStream().use { stream ->
+        keystoreProperties.load(stream)
+    }
+}
+
 android {
-    namespace = "com.example.manawib"
+    namespace = "com.yousif.manawib"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,15 +26,25 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // تم تحديث جافا هنا لحل تحذير الـ Deprecation
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = "17"
+    }
+
+    // 2. إعداد التوقيع (يجب تعريفه قبل الـ buildTypes والـ defaultConfig في Kotlin DSL)
+   signingConfigs {
+        create("release") {
+            keyAlias = "upload"
+            keyPassword = "Rezareza22"
+            storePassword = "Rezareza22"
+            
+            // تحديد مسار ملف الـ jks الفعلي الموجود داخل مجلد app
+            storeFile = file("upload-keystore.jks") 
+        }
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.manawib"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.yousif.manawib"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -31,10 +52,9 @@ android {
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            // ربط التوقيع الذي قمنا بإنشائه بالأعلى
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
